@@ -6,7 +6,7 @@ public static class ModHelperData
     public const string Version = "1.0.0";
     public const string Name = "MonkeyMoney";
 
-    public const string Description = "An empty mod";
+    public const string Description = "Give you're self the amount of Monkey Money You wanna have";
 
     public const string RepoOwner = "arnonymer66"; // TODO add your github username hero, also in the download url in README.md
     public const string RepoName = "MonkeyMoney"; // TODO add your repo name here, also in the download url in README.md
