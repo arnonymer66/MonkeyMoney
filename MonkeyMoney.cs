@@ -21,84 +21,120 @@ namespace MonkeyMoney
 
         public override void OnUpdate()
         {
-            // Überprüfen, ob die "E"-Taste gedrückt wurde, um das Menü zu toggeln
-            if (Input.GetKeyDown(KeyCode.E))
+            try
             {
-                isMenuOpen = !isMenuOpen;
-                input = "";  // Zurücksetzen der Eingabe, wenn das Menü geschlossen wird
-            }
+                // Überprüfen, ob die "E"-Taste gedrückt wurde, um das Menü zu toggeln
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    isMenuOpen = !isMenuOpen;
+                    input = "";  // Zurücksetzen der Eingabe, wenn das Menü geschlossen wird
+                }
 
-            // Wenn das Menü geöffnet ist, zeichne das Eingabefeld und die Buttons
-            if (isMenuOpen)
+                // Wenn das Menü geöffnet ist, zeichne das Eingabefeld und die Buttons
+                if (isMenuOpen)
+                {
+                    ShowMenu();
+                }
+            }
+            catch (Exception ex)
             {
-                ShowMenu();
+                ModHelper.Msg<MonkeyMoney>($"Fehler in OnUpdate: {ex.Message}");
             }
         }
 
         private void ShowMenu()
         {
-            // Position des Menüs auf dem Bildschirm
-            var screenPos = new Vector2(100, 100);
+            try
+            {
+                // Position des Menüs auf dem Bildschirm
+                var screenPos = new Vector2(100, 100);
 
-            // Menü Hintergrund zeichnen
-            DrawRect(screenPos, new Vector2(300, 200), new Color(0, 0, 0, 0.7f));  // Dunkler Hintergrund
+                // Menü Hintergrund zeichnen
+                DrawRect(screenPos, new Vector2(300, 200), new Color(0, 0, 0, 0.7f));  // Dunkler Hintergrund
 
-            // Text für Eingabeaufforderung und aktuelle Eingabe anzeigen
-            DrawText(screenPos + new Vector2(10, 10), "Geben Sie eine Zahl von 0-9 ein:", 20, Color.white);
-            DrawText(screenPos + new Vector2(10, 40), "Eingabe: " + input, 20, Color.yellow);
+                // Text für Eingabeaufforderung und aktuelle Eingabe anzeigen
+                DrawText(screenPos + new Vector2(10, 10), "Geben Sie eine Zahl von 0-9 ein:", 20, Color.white);
+                DrawText(screenPos + new Vector2(10, 40), "Eingabe: " + input, 20, Color.yellow);
 
-            // Zeige den aktuellen Betrag, der hinzugefügt wird, wenn Enter gedrückt wird
-            DrawText(screenPos + new Vector2(10, 70), "Aktueller Betrag: " + moneyAmount, 20, Color.green);
-            DrawText(screenPos + new Vector2(10, 100), "Drücken Sie Enter, um hinzuzufügen", 20, Color.white);
+                // Zeige den aktuellen Betrag, der hinzugefügt wird, wenn Enter gedrückt wird
+                DrawText(screenPos + new Vector2(10, 70), "Aktueller Betrag: " + moneyAmount, 20, Color.green);
+                DrawText(screenPos + new Vector2(10, 100), "Drücken Sie Enter, um hinzuzufügen", 20, Color.white);
+            }
+            catch (Exception ex)
+            {
+                ModHelper.Msg<MonkeyMoney>($"Fehler in ShowMenu: {ex.Message}");
+            }
         }
 
         private void DrawRect(Vector2 position, Vector2 size, Color color)
         {
-            // Zeichnet ein Rechteck für das Menü
-            var rect = new Rect(position.x, position.y, size.x, size.y);
-            var texture = new Texture2D(1, 1);
-            texture.SetPixel(0, 0, color);
-            texture.Apply();
-            GUI.DrawTexture(rect, texture);
+            try
+            {
+                // Zeichnet ein Rechteck für das Menü
+                var rect = new Rect(position.x, position.y, size.x, size.y);
+                var texture = new Texture2D(1, 1);
+                texture.SetPixel(0, 0, color);
+                texture.Apply();
+                GUI.DrawTexture(rect, texture);
+            }
+            catch (Exception ex)
+            {
+                ModHelper.Msg<MonkeyMoney>($"Fehler in DrawRect: {ex.Message}");
+            }
         }
 
         private void DrawText(Vector2 position, string text, int fontSize, Color color)
         {
-            // Zeichnet Text auf dem Bildschirm
-            GUI.skin.label.fontSize = fontSize;
-            GUI.skin.label.normal.textColor = color;
-            GUI.Label(new Rect(position.x, position.y, 200, 50), text);
+            try
+            {
+                // Zeichnet Text auf dem Bildschirm
+                GUI.skin.label.fontSize = fontSize;
+                GUI.skin.label.normal.textColor = color;
+                GUI.Label(new Rect(position.x, position.y, 200, 50), text);
+            }
+            catch (Exception ex)
+            {
+                ModHelper.Msg<MonkeyMoney>($"Fehler in DrawText: {ex.Message}");
+            }
         }
 
         public override void OnGUI()
         {
-            // Wenn das Menü geöffnet ist, erfassen wir Tasteneingaben
-            if (isMenuOpen)
+            try
             {
-                // Tasteneingabe von 0 bis 9
-                for (int i = 0; i <= 9; i++)
+                // Wenn das Menü geöffnet ist, erfassen wir Tasteneingaben
+                if (isMenuOpen)
                 {
-                    if (Input.GetKeyDown(KeyCode.Alpha0 + i))
+                    // Tasteneingabe von 0 bis 9
+                    for (int i = 0; i <= 9; i++)
                     {
-                        input += i.ToString();
+                        if (Input.GetKeyDown(KeyCode.Alpha0 + i))
+                        {
+                            input += i.ToString();
+                        }
                     }
-                }
 
-                // Wenn Enter gedrückt wird, fügen wir das Monkey Money hinzu
-                if (Input.GetKeyDown(KeyCode.Return) && !string.IsNullOrEmpty(input))
-                {
-                    if (int.TryParse(input, out moneyAmount))
+                    // Wenn Enter gedrückt wird, fügen wir das Monkey Money hinzu
+                    if (Input.GetKeyDown(KeyCode.Return) && !string.IsNullOrEmpty(input))
                     {
-                        // Logik, um den Monkey Money-Betrag hinzuzufügen (dies könnte angepasst werden, um tatsächlich das Spiel zu beeinflussen)
-                        ModHelper.Msg<MonkeyMoney>($"Monkey Money hinzugefügt: {moneyAmount}");
-                        input = "";  // Eingabe zurücksetzen nach Bestätigung
-                    }
-                    else
-                    {
-                        ModHelper.Msg<MonkeyMoney>("Ungültige Eingabe! Bitte geben Sie eine Zahl ein.");
+                        if (int.TryParse(input, out moneyAmount))
+                        {
+                            // Logik, um den Monkey Money-Betrag hinzuzufügen (dies könnte angepasst werden, um tatsächlich das Spiel zu beeinflussen)
+                            ModHelper.Msg<MonkeyMoney>($"Monkey Money hinzugefügt: {moneyAmount}");
+                            input = "";  // Eingabe zurücksetzen nach Bestätigung
+                        }
+                        else
+                        {
+                            ModHelper.Msg<MonkeyMoney>("Ungültige Eingabe! Bitte geben Sie eine Zahl ein.");
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                ModHelper.Msg<MonkeyMoney>($"Fehler in OnGUI: {ex.Message}");
             }
         }
     }
 }
+
