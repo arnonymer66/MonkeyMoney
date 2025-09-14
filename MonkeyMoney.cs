@@ -3,7 +3,7 @@ using BTD_Mod_Helper;
 using UnityEngine;
 using System;
 
-[assembly: MelonInfo(typeof(MonkeyMoney.MonkeyMoney), ModHelperData.Name, ModHelperData.Version, ModHelperData.RepoOwner)]
+[assembly: MelonInfo(typeof(MonkeyMoney.MonkeyMoney), "MonkeyMoney", "1.0.3", "arnonymer66")]
 [assembly: MelonGame("Ninja Kiwi", "BloonsTD6")]
 
 namespace MonkeyMoney
